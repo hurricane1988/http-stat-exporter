@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Faw Authors
+Copyright 2024 Hurricane Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -100,15 +100,21 @@ func ParseURL(ctx context.Context, uri string) *url.URL {
 	return parsedURL
 }
 
+// HeaderKeyValue parses the given HTTP header string into its key and value parts
 func HeaderKeyValue(ctx context.Context, header string) (string, string) {
 	Log := log.FromContext(ctx)
+	// Locate the position of ':', used to split the key and value
 	i := strings.Index(header, ":")
 	if i == -1 {
+		// Log an error as ": " is the expected delimiter
 		Log.Error(errors.New("invalid header format"), "header has invalid format, missing ':'",
 			"header", header,
 		)
 	}
-	return strings.TrimRight(header[:i], " "), strings.TrimLeft(header[i:], " :")
+	// Separate and clean the key and value
+	key := strings.TrimRight(header[:i], " ")   // Removes trailing spaces from the key
+	value := strings.TrimLeft(header[i:], " :") // Removes leading spaces and any possible colon from the value
+	return key, value
 }
 
 func DialContext(network string) func(ctx context.Context, network, addr string) (net.Conn, error) {
