@@ -17,6 +17,9 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
+	"github.com/hurricane1988/http-stat-exporter/collector/version"
+	"github.com/hurricane1988/http-stat-exporter/utils"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
@@ -25,3 +28,9 @@ import (
 var (
 	setupLog = ctrl.Log.WithName("http-stat-exporter")
 )
+
+func main() {
+	// Registered the terminal information.
+	fmt.Println(utils.Print())
+	version.Print()
+}
